@@ -211,7 +211,7 @@ void skills() {
   chassis.pid_turn_set(90, TURN_SPEED);
   pros::delay(500);
   bottomRollers.move(127);
-  chassis.pid_drive_set(24, DRIVE_SPEED, true);
+  chassis.pid_drive_set(22, DRIVE_SPEED, true);
   pros::delay(700);
   chassis.pid_turn_set(43, TURN_SPEED);
   pros::delay(380);
@@ -223,9 +223,11 @@ void skills() {
   pros::delay(400);
   bottomRollers.move(90);
   topRollers.move(41);
-  topIntake.move(-30);
+  topIntake.move(-33);
   pros::delay(2700);
-  chassis.pid_drive_set(58_in, DRIVE_SPEED, true);
+  chassis.pid_turn_set(43, TURN_SPEED);
+  pros::delay(380);
+  chassis.pid_drive_set(56_in, DRIVE_SPEED, true); // 58
   pros::delay(1050);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   matchLoader.set(true);
@@ -349,4 +351,8 @@ void skills() {
   topRollers.move(127);
   chassis.pid_drive_set(42_in, DRIVE_SPEED, true);
   chassis.pid_wait();
+}
+
+void distanceTest() {
+  chassis.drive_to_front_distance(15, 900);
 }

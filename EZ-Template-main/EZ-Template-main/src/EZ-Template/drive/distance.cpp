@@ -1,8 +1,6 @@
 #include "EZ-Template/drive/drive.hpp"
 #include <cmath>
 
-// Nicole, added for distance sensor
-
 /**
  * @brief Clamp a value within a given range.
  * 
@@ -91,13 +89,13 @@ double Drive::distance_front_in_filtered(double prev) {
  * @param target_in The target distance in inches.
  * @param timeout_ms The timeout in milliseconds.
  */
-void Drive::drive_to_front_distance(double target_in, int timeout_ms) {
+void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
   if (!dist_front) return;
 
   const double kp = 10.0;        // Slow P control
   const int maxV  = 45;          // maximum speed
   const double stopBand = 0.35;  // inch
-  const int stableNeed = 6; // Nicole!!! May need to tune it to smaller value
+  const int stableNeed = 1; // Nicole!!! May need to tune it to smaller value
 
   int stable = 0;
   double prev = mm_to_in(dist_front->get());

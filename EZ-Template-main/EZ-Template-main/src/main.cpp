@@ -42,9 +42,10 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"SKILLS!", skills},
+      {"Testing distance sensor", distanceTest},
       {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
       {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
-      {"SKILLS!", skills},
       {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
       {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
   });
@@ -222,6 +223,43 @@ void opcontrol() {
     descore.button_toggle(master.get_digital(DIGITAL_B));
     matchLoader.button_toggle(master.get_digital(DIGITAL_DOWN));
     stopPiston.button_toggle(master.get_digital(DIGITAL_Y));
+    if (master.get_digital(pros::E_CONTROLLER_DIGITAL_RIGHT)) {
+      stopPiston.set(false);
+      bottomRollers.move(127);
+      topRollers.move(127);
+      topIntake.move(127);
+      chassis.pid_drive_set(40_in, 50, true);
+      pros::delay(1000);
+      chassis.pid_drive_set(-10_in, 80, true);
+      pros::delay(500);
+      chassis.pid_drive_set(25_in, 50, true);
+      pros::delay(800);
+      chassis.pid_drive_set(-10_in, 80, true);
+      pros::delay(500);
+      chassis.pid_drive_set(23_in, 50, true);
+      pros::delay(800);
+      chassis.pid_drive_set(-10_in, 80, true);
+      pros::delay(500);
+      chassis.pid_drive_set(20_in, 50, true);
+      pros::delay(1000);
+      chassis.pid_drive_set(-24_in, 50, true);
+      pros::delay(1600);
+      chassis.pid_drive_set(10_in, 50, true); // finished with clearing park
+      pros::delay(480);
+      bottomRollers.move(0);
+      topRollers.move(0);
+      topIntake.move(0); 
+      chassis.pid_drive_set(-32, 120, true);
+      pros::delay(800);
+      chassis.pid_turn_set(90, 90);
+      pros::delay(500);
+      bottomRollers.move(127);
+      chassis.pid_drive_set(22, 120, true);
+      pros::delay(700);
+      chassis.pid_turn_set(43, 90);
+      pros::delay(380);
+      chassis.pid_drive_set(-16, 70, true); // middle goal
+    }
     // intake logic
     if (master.get_digital(DIGITAL_R1)) { //scoring on the top
       topRollers.move(127);
