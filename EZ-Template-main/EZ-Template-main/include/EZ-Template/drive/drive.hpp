@@ -3410,6 +3410,17 @@ class Drive {
    */
   bool opcontrol_arcade_scaling_enabled();
 
+// Nicole, added for distance sensor, public functions
+  void distance_sensor_init(pros::Distance* front, pros::Distance* side);
+  void drive_to_front_distance(double target_in, int timeout_ms = 900);
+  void drive_follow_sidewall(double forward_in,
+                             double target_wall_in,
+                             double hold_heading_deg,
+                             int timeout_ms);
+  void alignToSideWall(double target_in, int timeout_ms);
+// End of distance sensor functions
+
+
  private:
   void opcontrol_drive_activebrake_targets_set();
   double odom_smooth_weight_smooth = 0.0;
@@ -3542,6 +3553,11 @@ class Drive {
   std::string complete_pid_tuner_output = "";
   float p_increment = 0.1, i_increment = 0.001, d_increment = 0.25, start_i_increment = 1.0;
 
+  //Nicole, added for distance sensor
+  // ===== Distance sensor (extern or member) =====
+  pros::Distance* dist_front = nullptr;
+  pros::Distance* dist_side  = nullptr;
+
   /**
    * Private wait until for drive
    */
@@ -3667,5 +3683,9 @@ class Drive {
    * Boolean to flip which side is the front of the robot for driver control.
    */
   bool is_reversed = false;
+  
+  // Nicole, added for distance sensor, private functions
+  double distance_front_in_filtered(double prev);
+  double distance_side_in_filtered(double prev);
 };
 };  // namespace ez

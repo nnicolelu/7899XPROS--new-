@@ -8,20 +8,13 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-5, -6, -7, -8},  // Left Chassis Ports (negative port will reverse it!)
-    {11, 15, 16, 17},  // Right Chassis Ports (negative port will reverse it!)
+    {-20, -19, 12},     // Left Chassis Ports (negative port will reverse it!)
+    {15, 16, -17},  // Right Chassis Ports (negative port will reverse it!)
 
-    21,      // IMU Port
-    4.125,   // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    420.0);  // Wheel RPM = cartridge * (motor gear / wheel gear)
+    4,      // IMU Port
+    3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
+    450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
-// Uncomment the trackers you're using here!
-// - `8` and `9` are smart ports (making these negative will reverse the sensor)
-//  - you should get positive values on the encoders going FORWARD and RIGHT
-// - `2.75` is the wheel diameter
-// - `4.0` is the distance from the center of the wheel to the center of the robot
-// ez::tracking_wheel horiz_tracker(8, 2.75, 4.0);  // This tracking wheel is perpendicular to the drive wheels
-// ez::tracking_wheel vert_tracker(9, 2.75, 4.0);   // This tracking wheel is parallel to the drive wheels
 
 /**
  * Runs initialization code. This occurs as soon as the program is started.
@@ -34,15 +27,6 @@ void initialize() {
   ez::ez_template_print();
 
   pros::delay(500);  // Stop the user from doing anything while legacy ports configure
-
-  // Look at your horizontal tracking wheel and decide if it's in front of the midline of your robot or behind it
-  //  - change `back` to `front` if the tracking wheel is in front of the midline
-  //  - ignore this if you aren't using a horizontal tracker
-  // chassis.odom_tracker_back_set(&horiz_tracker);
-  // Look at your vertical tracking wheel and decide if it's to the left or right of the center of the robot
-  //  - change `left` to `right` if the tracking wheel is to the right of the centerline
-  //  - ignore this if you aren't using a vertical tracker
-  // chassis.odom_tracker_left_set(&vert_tracker);
 
   // Configure your chassis controls
   chassis.opcontrol_curve_buttons_toggle(true);   // Enables modifying the controller curve with buttons on the joysticks
@@ -58,26 +42,18 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Drive\n\nDrive forward and come back", drive_example},
-      {"Turn\n\nTurn 3 times.", turn_example},
-      {"Drive and Turn\n\nDrive forward, turn, come back", drive_and_turn},
-      {"Drive and Turn\n\nSlow down during drive", wait_until_change_speed},
-      {"Swing Turn\n\nSwing in an 'S' curve", swing_example},
-      {"Motion Chaining\n\nDrive forward, turn, and come back, but blend everything together :D", motion_chaining},
-      {"Combine all 3 movements", combining_movements},
-      {"Interference\n\nAfter driving forward, robot performs differently if interfered or not", interfered_example},
-      {"Simple Odom\n\nThis is the same as the drive example, but it uses odom instead!", odom_drive_example},
-      {"Pure Pursuit\n\nGo to (0, 30) and pass through (6, 10) on the way.  Come back to (0, 0)", odom_pure_pursuit_example},
-      {"Pure Pursuit Wait Until\n\nGo to (24, 24) but start running an intake once the robot passes (12, 24)", odom_pure_pursuit_wait_until_example},
-      {"Boomerang\n\nGo to (0, 24, 45) then come back to (0, 0, 0)", odom_boomerang_example},
-      {"Boomerang Pure Pursuit\n\nGo to (0, 24, 45) on the way to (24, 24) then come back to (0, 0, 0)", odom_boomerang_injected_pure_pursuit_example},
-      {"Measure Offsets\n\nThis will turn the robot a bunch of times and calculate your offsets for your tracking wheels.", measure_offsets},
+      {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
+      {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
+      {"SKILLS!", skills},
+      {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
+      {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
   });
 
   // Initialize chassis and auton selector
   chassis.initialize();
   ez::as::initialize();
   master.rumble(chassis.drive_imu_calibrated() ? "." : "---");
+  pros::lcd::initialize();
 }
 
 /**
@@ -99,7 +75,7 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-  // . . .
+                 // Reset gyro position to 0
 }
 
 /**
@@ -119,7 +95,6 @@ void autonomous() {
   chassis.drive_sensor_reset();               // Reset drive sensors to 0
   chassis.odom_xyt_set(0_in, 0_in, 0_deg);    // Set the current position, you can start at a specific position with this
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);  // Set motors to hold.  This helps autonomous consistency
-
   /*
   Odometry and Pure Pursuit are not magic
 
@@ -149,11 +124,6 @@ void screen_print_tracker(ez::tracking_wheel *tracker, std::string name, int lin
   ez::screen_print(tracker_value + tracker_width, line);  // Print final tracker text
 }
 
-/**
- * Ez screen task
- * Adding new pages here will let you view them during user control or autonomous
- * and will help you debug problems you're having
- */
 void ez_screen_task() {
   while (true) {
     // Only run this when not connected to a competition switch
@@ -227,11 +197,6 @@ void ez_template_extras() {
 }
 
 /**
- * Runs the operator control code. This function will be started in its own task
- * with the default priority and stack size whenever the robot is enabled via
- * the Field Management System or the VEX Competition Switch in the operator
- * control mode.
- *
  * If no competition control is connected, this function will run immediately
  * following initialize().
  *
@@ -240,23 +205,63 @@ void ez_template_extras() {
  * task, not resume it from where it left off.
  */
 void opcontrol() {
-  // This is preference to what you like to drive on
   chassis.drive_brake_set(MOTOR_BRAKE_COAST);
-
+  static uint32_t lastPrint = 0;
   while (true) {
+    uint32_t now = pros::millis();
+    if (now - lastPrint >= 200) {   // 200 ms
+      lastPrint = now;
+      double frontInch = front.get() / 25.4; 
+      double sideInch = side.get() / 25.4;
+      pros::lcd::print(0, "Side: %f in, Front: %f in", sideInch, frontInch);
+    }
     // Gives you some extras to make EZ-Template ezier
     ez_template_extras();
-
-    chassis.opcontrol_tank();  // Tank control
-    // chassis.opcontrol_arcade_standard(ez::SPLIT);   // Standard split arcade
-    // chassis.opcontrol_arcade_standard(ez::SINGLE);  // Standard single arcade
-    // chassis.opcontrol_arcade_flipped(ez::SPLIT);    // Flipped split arcade
-    // chassis.opcontrol_arcade_flipped(ez::SINGLE);   // Flipped single arcade
-
-    // . . .
-    // Put more user control code here!
-    // . . .
-
+    chassis.opcontrol_arcade_standard(ez::SPLIT);
+    // pneumatics
+    descore.button_toggle(master.get_digital(DIGITAL_B));
+    matchLoader.button_toggle(master.get_digital(DIGITAL_DOWN));
+    stopPiston.button_toggle(master.get_digital(DIGITAL_Y));
+    // intake logic
+    if (master.get_digital(DIGITAL_R1)) { //scoring on the top
+      topRollers.move(127);
+      topIntake.move(127);
+      if (master.get_digital(DIGITAL_L1)) { // picking balls from floor
+        bottomRollers.move(127);
+      }
+      else {
+        bottomRollers.move(0);
+      }
+    }
+    else if (master.get_digital(DIGITAL_R2)) {
+      topRollers.move(40);
+      topIntake.move(-35);
+    }
+    else if (master.get_digital(DIGITAL_L1)) { // picking up from floor
+      bottomRollers.move(127);
+      if (master.get_digital(DIGITAL_R1)) { // scoring on top goal
+        topRollers.move(127);
+        topIntake.move(127);
+      }
+      else if (master.get_digital(DIGITAL_R2)) { // scoring on middle top 
+        topRollers.move(40);
+        topIntake.move(-35);
+      }
+      else {
+        topRollers.move(0);
+        topIntake.move(0);
+      }
+    }
+    else if (master.get_digital(DIGITAL_L2)) { // removing balls from bot
+      bottomRollers.move(-127);
+      topRollers.move(-127);
+      topIntake.move(-127);
+    }
+    else {
+      bottomRollers.move(0);
+      topRollers.move(0);
+      topIntake.move(0);
+    }
     pros::delay(ez::util::DELAY_TIME);  // This is used for timer calculations!  Keep this ez::util::DELAY_TIME
   }
 }

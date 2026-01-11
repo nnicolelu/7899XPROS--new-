@@ -9,3 +9,13 @@ extern Drive chassis;
 
 // inline pros::Motor intake(1);
 // inline pros::adi::DigitalIn limit_switch('A');
+
+inline pros::Motor bottomRollers(14);
+inline pros::Motor topRollers(5);
+inline pros::Motor topIntake(-7);
+
+inline ez::Piston descore('B');
+inline ez::Piston matchLoader('A');
+inline ez::Piston stopPiston('F');
+inline pros::Distance front(1);
+inline pros::Distance side(13);

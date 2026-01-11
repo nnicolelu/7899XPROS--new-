@@ -10,6 +10,8 @@ file, You can obtain one at http://mozilla.org/MPL/2.0/.
 #include "okapi/api/units/QAngle.hpp"
 #include "pros/llemu.hpp"
 #include "pros/screen.hpp"
+//Nicole, added for distance sensor
+#include "subsystems.hpp"
 
 using namespace ez;
 
@@ -433,6 +435,8 @@ void Drive::initialize() {
   opcontrol_curve_sd_initialize();
   drive_imu_calibrate();
   drive_sensor_reset();
+  // Nicole!!! Initializes distance sensors if they are set
+  distance_sensor_init(&front, &side);
 }
 
 void Drive::odom_tracker_left_set(tracking_wheel* input) {
