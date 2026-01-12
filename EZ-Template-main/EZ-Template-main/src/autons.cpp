@@ -354,5 +354,5 @@ void skills() {
 }
 
 void distanceTest() {
-  chassis.drive_to_front_distance(15, 900);
+  chassis.drive_to_front_distance(15, 2000);
 }

@@ -94,7 +94,7 @@ void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
 
   const double kp = 10.0;        // Slow P control
   const int maxV  = 45;          // maximum speed
-  const double stopBand = 0.35;  // inch
+  const double stopBand = 0.8;  // inch
   const int stableNeed = 1; // Nicole!!! May need to tune it to smaller value
 
   int stable = 0;
