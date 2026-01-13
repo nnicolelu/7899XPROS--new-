@@ -3411,7 +3411,7 @@ class Drive {
   bool opcontrol_arcade_scaling_enabled();
 
 // Nicole, added for distance sensor, public functions
-  void distance_sensor_init(pros::Distance* front, pros::Distance* side);
+  void distance_sensor_init(pros::Distance* pFront, pros::Distance* pSide);
   void drive_to_front_distance(double target_in, int timeout_ms = 900);
   void drive_follow_sidewall(double forward_in,
                              double target_wall_in,

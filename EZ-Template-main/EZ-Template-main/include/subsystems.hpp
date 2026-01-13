@@ -14,8 +14,11 @@ inline pros::Motor bottomRollers(14);
 inline pros::Motor topRollers(5);
 inline pros::Motor topIntake(-7);
 
+inline pros::MotorGroup leftChassis({-20, -19, 12});
+inline pros::MotorGroup rightChassis({15, 16, -17});
+
 inline ez::Piston descore('B');
-inline ez::Piston matchLoader('A');
+inline ez::Piston matchLoader('H');
 inline ez::Piston stopPiston('F');
 inline pros::Distance front(1);
 inline pros::Distance side(13);

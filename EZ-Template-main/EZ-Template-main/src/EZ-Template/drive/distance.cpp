@@ -1,4 +1,6 @@
 #include "EZ-Template/drive/drive.hpp"
+#include "subsystems.hpp"
+//#include "../include/pros/motors.h"
 #include <cmath>
 
 /**
@@ -53,9 +55,9 @@ static inline double lpf(double prev, double cur, double alpha = 0.25) {
  * @param front The front distance sensor.
  * @param side The side distance sensor.
  */
-void Drive::distance_sensor_init(pros::Distance* front, pros::Distance* side) {
-  dist_front = front;
-  dist_side = side;
+void Drive::distance_sensor_init(pros::Distance* pFront, pros::Distance* pSide) {
+  dist_front = pFront;
+  dist_side = pSide;
 }
 /**
  * @brief Gets the filtered front distance sensor value.
@@ -91,19 +93,24 @@ double Drive::distance_front_in_filtered(double prev) {
  */
 void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
   if (!dist_front) return;
-
+  //drive_brake_set(MOTOR_BRAKE_BRAKE);
+  drive_brake_set(pros::E_MOTOR_BRAKE_BRAKE);
   const double kp = 10.0;        // Slow P control
   const int maxV  = 45;          // maximum speed
-  const double stopBand = 0.8;  // inch
+  const double stopBand = 0.35;  // inch
   const int stableNeed = 1; // Nicole!!! May need to tune it to smaller value
 
   int stable = 0;
   double prev = mm_to_in(dist_front->get());
   uint32_t t0 = pros::millis();
-
+  int exit_reason = 0;
+  double cur = 0.0;
   while (pros::millis() - t0 < timeout_ms) {
 
-    double cur = distance_front_in_filtered(prev);
+    cur = distance_front_in_filtered(prev);
+    //  double cur = front.get() / 25.4;
+    pros::lcd::print(3, "cur: %f in, prev: %f in", cur, prev);
+
     prev = cur;
 
     double err = cur - target_in;    // Nicole!!! Note it may need to be reversed if the direction is reversed!!!
@@ -115,15 +122,27 @@ void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
     if (std::fabs(err) < stopBand) stable++;
     else stable = 0;
 
-    if (stable >= stableNeed) break;
+    if (stable >= stableNeed) {
+      exit_reason = 1;
+      break;
+    }
 
     // Use existing raw motor interface to set the drive motors to the command value
     private_drive_set(cmd, cmd);
+    //pid_drive_set(10_in, 30);
+    //pid_wait();
 
     pros::delay(20);
   }
+  pros::lcd::print(4, "Exited the loop, reason=%d, cur=%f", exit_reason, cur);
 
-  private_drive_set(0, 0);
+  //drive_set(0,0);
+  //chassis.update();
+ /// left_motors.move_velocity(0);
+ // right_motor.move_velocity(0);
+ for (auto &motor : left_motors) motor.move_velocity(0);
+ for (auto &motor : right_motors) motor.move_velocity(0);
+  //private_drive_set(0, 0);
 } // drive_to_front_distance
 
 // Drive::pros::Distance* dist_side = nullptr;
@@ -289,4 +308,5 @@ void Drive::drive_follow_sidewall(double forward_in,
   }
 
   private_drive_set(0, 0);
+  //chassis.drive_stop();
 } // drive_follow_sidewall

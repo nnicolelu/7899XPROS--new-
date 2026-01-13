@@ -187,15 +187,15 @@ void skills() {
   topIntake.move(127);
   chassis.pid_drive_set(40_in, 50, true);
   pros::delay(1000);
-  chassis.pid_drive_set(-10_in, 80, true);
+  chassis.pid_drive_set(-13_in, 80, true);
   pros::delay(500);
   chassis.pid_drive_set(25_in, 50, true);
   pros::delay(800);
-  chassis.pid_drive_set(-10_in, 80, true);
+  chassis.pid_drive_set(-13_in, 80, true);
   pros::delay(500);
   chassis.pid_drive_set(23_in, 50, true);
   pros::delay(800);
-  chassis.pid_drive_set(-10_in, 80, true);
+  chassis.pid_drive_set(-12_in, 80, true);
   pros::delay(500);
   chassis.pid_drive_set(20_in, 50, true);
   pros::delay(1000);
@@ -227,7 +227,7 @@ void skills() {
   pros::delay(2700);
   chassis.pid_turn_set(43, TURN_SPEED);
   pros::delay(380);
-  chassis.pid_drive_set(56_in, DRIVE_SPEED, true); // 58
+  chassis.pid_drive_set(59_in, DRIVE_SPEED, true); // 58
   pros::delay(1050);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   matchLoader.set(true);
@@ -253,11 +253,11 @@ void skills() {
   pros::delay(1500);
   chassis.pid_turn_set(250_deg, TURN_SPEED);
   pros::delay(500);
-  chassis.pid_drive_set(37_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
   pros::delay(300);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
   pros::delay(400);
-  chassis.pid_drive_set(-18_in, 80, true); // scoring first match loader
+  chassis.pid_drive_set(-20_in, 80, true); // scoring first match loader
   pros::delay(600);
   stopPiston.set(true);
   topIntake.move(127);
@@ -318,7 +318,7 @@ void skills() {
   pros::delay(700);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
   pros::delay(500);
-  chassis.pid_drive_set(-10_in, 80, true); // scoring 3rd match loader
+  chassis.pid_drive_set(-14_in, 80, true); // scoring 3rd match loader
   pros::delay(500);
   stopPiston.set(true);
   topRollers.move(127);
@@ -349,10 +349,10 @@ void skills() {
   pros::delay(350);
   bottomRollers.move(127);
   topRollers.move(127);
-  chassis.pid_drive_set(42_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(45_in, DRIVE_SPEED, true);
   chassis.pid_wait();
 }
 
 void distanceTest() {
-  chassis.drive_to_front_distance(15, 2000);
+  chassis.drive_to_front_distance(15, 4000);
 }
