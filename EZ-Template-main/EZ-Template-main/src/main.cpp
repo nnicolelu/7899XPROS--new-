@@ -42,8 +42,8 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"SKILLS!", skills},
       {"Testing distance sensor", distanceTest},
+      {"SKILLS!", skills},
       {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
       {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
       {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
@@ -76,7 +76,7 @@ void disabled() {
  * starts.
  */
 void competition_initialize() {
-                 // Reset gyro position to 0
+  // Reset gyro position to 0
 }
 
 /**

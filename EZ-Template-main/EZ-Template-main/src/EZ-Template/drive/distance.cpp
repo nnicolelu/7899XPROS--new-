@@ -98,7 +98,7 @@ void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
   const double kp = 10.0;        // Slow P control
   const int maxV  = 45;          // maximum speed
   const double stopBand = 0.35;  // inch
-  const int stableNeed = 1; // Nicole!!! May need to tune it to smaller value
+  const int stableNeed = 1; // May need to tune it to smaller value
 
   int stable = 0;
   double prev = mm_to_in(dist_front->get());
@@ -106,14 +106,13 @@ void Drive::drive_to_front_distance(double target_in, int timeout_ms) { // HERE
   int exit_reason = 0;
   double cur = 0.0;
   while (pros::millis() - t0 < timeout_ms) {
-
     cur = distance_front_in_filtered(prev);
     //  double cur = front.get() / 25.4;
     pros::lcd::print(3, "cur: %f in, prev: %f in", cur, prev);
 
     prev = cur;
 
-    double err = cur - target_in;    // Nicole!!! Note it may need to be reversed if the direction is reversed!!!
+    double err = cur - target_in;    // Note it may need to be reversed if the direction is reversed!!!
     double cmd = kp * err;
 
     if (cmd >  maxV) cmd =  maxV;

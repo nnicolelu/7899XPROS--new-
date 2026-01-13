@@ -185,17 +185,17 @@ void skills() {
   bottomRollers.move(127);
   topRollers.move(127);
   topIntake.move(127);
-  chassis.pid_drive_set(40_in, 50, true);
+  chassis.pid_drive_set(40_in, 40, true);
   pros::delay(1000);
-  chassis.pid_drive_set(-13_in, 80, true);
+  chassis.pid_drive_set(-11_in, 70, true);
   pros::delay(500);
   chassis.pid_drive_set(25_in, 50, true);
   pros::delay(800);
-  chassis.pid_drive_set(-13_in, 80, true);
+  chassis.pid_drive_set(-11_in, 70, true);
   pros::delay(500);
   chassis.pid_drive_set(23_in, 50, true);
   pros::delay(800);
-  chassis.pid_drive_set(-12_in, 80, true);
+  chassis.pid_drive_set(-11_in, 70, true);
   pros::delay(500);
   chassis.pid_drive_set(20_in, 50, true);
   pros::delay(1000);
@@ -211,7 +211,7 @@ void skills() {
   chassis.pid_turn_set(90, TURN_SPEED);
   pros::delay(500);
   bottomRollers.move(127);
-  chassis.pid_drive_set(22, DRIVE_SPEED, true);
+  chassis.pid_drive_set(21, DRIVE_SPEED, true); // red block
   pros::delay(700);
   chassis.pid_turn_set(43, TURN_SPEED);
   pros::delay(380);
@@ -235,7 +235,7 @@ void skills() {
   bottomRollers.move(127);
   topRollers.move(127);
   topIntake.move(127);
-  chassis.pid_drive_set(18.5_in, 50, true); // getting first match loader
+  chassis.pid_drive_set(17_in, 50, true); // getting first match loader
   pros::delay(2500);
   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
   pros::delay(500);
@@ -253,7 +253,7 @@ void skills() {
   pros::delay(1500);
   chassis.pid_turn_set(250_deg, TURN_SPEED);
   pros::delay(500);
-  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
   pros::delay(300);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
   pros::delay(400);
@@ -353,6 +353,13 @@ void skills() {
   chassis.pid_wait();
 }
 
+void simpleMoveFront(int targetInch) {
+  double frontInch = front.get() / 25.4; 
+  chassis.pid_drive_set((frontInch - targetInch), 100, true);
+}
+
 void distanceTest() {
-  chassis.drive_to_front_distance(15, 4000);
+  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
+  simpleMoveFront(24);
+  chassis.pid_wait();
 }
