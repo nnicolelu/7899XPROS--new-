@@ -303,13 +303,12 @@ void skills() {
   pros::delay(450);
   //replace with code for blue park zone
   chassis.pid_drive_set(80_in, 100, true); // driving to 3rd goal (switch to use distance sensor)
-  pros::delay(1700);
-  simpleMoveFront(20.7);
-  pros::delay(800);
+  pros::delay(1300);
+  simpleMoveFront(18);
+  pros::delay(700);
   // replace with code for blue park zone
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
   pros::delay(600);
-  /*
   chassis.pid_drive_set(-24_in, 80, true);
   pros::delay(800);
   matchLoader.set(true);
@@ -320,6 +319,7 @@ void skills() {
   topRollers.move(127);
   topIntake.move(127);
   pros::delay(2000);
+  /*
   chassis.pid_drive_set(-20_in, DRIVE_SPEED, true);
   pros::delay(600);
   chassis.pid_turn_set(270_deg, TURN_SPEED);
