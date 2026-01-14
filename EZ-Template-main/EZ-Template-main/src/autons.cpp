@@ -261,14 +261,14 @@ void skills() {
   topIntake.move(0);
   chassis.pid_drive_set(3_in, DRIVE_SPEED, true);
   pros::delay(200);
-  simpleMoveFront(6); // checking distance before turning to 2nd quadrant
-  pros::delay(1000);
+  simpleMoveFront(5); // checking distance before turning to 2nd quadrant
+  pros::delay(500);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
   pros::delay(500);
   chassis.pid_drive_set(70_in, DRIVE_SPEED, true);
   pros::delay(1100);
   simpleMoveFront(30);
-  pros::delay(800);
+  pros::delay(600);
   chassis.pid_turn_set(250_deg, TURN_SPEED);
   pros::delay(500);
   chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
@@ -277,11 +277,12 @@ void skills() {
   pros::delay(400);
   chassis.pid_drive_set(-20_in, 80, true); // scoring first match loader
   pros::delay(600);
+  chassis.pid_turn_set(-180_deg, TURN_SPEED);
   stopPiston.set(true);
   topIntake.move(127);
   bottomRollers.move(127);
   topRollers.move(127);
-  pros::delay(2000);
+  pros::delay(1800);
   stopPiston.set(false);
   matchLoader.set(true);
   chassis.pid_drive_set(36_in, 50, true); // second match loader
