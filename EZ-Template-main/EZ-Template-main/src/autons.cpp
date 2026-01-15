@@ -187,7 +187,7 @@ void right4Ball() {
 
 void skills() {
   stopPiston.set(false);
-/*
+  /*
   bottomRollers.move(127);
   topRollers.move(127);
   topIntake.move(127);
@@ -332,10 +332,10 @@ void skills() {
   matchLoader.set(false);
   chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
   pros::delay(350);
-  simpleMoveFront(5);
-  pros::delay(350);
+  simpleMoveFront(4.5);
+  pros::delay(500);
   chassis.pid_turn_set(0_deg, TURN_SPEED);
-  pros::delay(450);
+  pros::delay(600);  // 450
   chassis.pid_drive_set(60_in, 90, true); // going to 4th quadrant
   pros::delay(1100);
   simpleMoveFront(25);
@@ -367,7 +367,6 @@ void skills() {
   stopPiston.set(false);
   chassis.pid_drive_set(-16_in, 100, true); // push for control
   pros::delay(400);
-/*
   chassis.pid_drive_set(18_in, DRIVE_SPEED, true); // going to park
   pros::delay(500);
   chassis.pid_turn_set(45_deg, TURN_SPEED);
@@ -379,12 +378,76 @@ void skills() {
   bottomRollers.move(127);
   topRollers.move(127);
   chassis.pid_drive_set(45_in, DRIVE_SPEED, true); // parked
-  */
   chassis.pid_wait();
 }
 
-void distanceTest() {
-  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
-  simpleMoveFront(24);
+void soloAWP()  {
+  stopPiston.set(false);
+  matchLoader.set(false);
+  bottomRollers.move(127);
+  topRollers.move(127);
+  topIntake.move(127);
+   //4 ball long goal right
+  chassis.pid_drive_set(31_in, DRIVE_SPEED, true);
+  pros::delay(1000);
+  chassis.pid_turn_set(89_deg, TURN_SPEED);
+  pros::delay(200);
+  matchLoader.set(true);
+  pros::delay(200); 
+  chassis.pid_drive_set(13_in, DRIVE_SPEED, true); //12_in
+  pros::delay(900);
+  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
+  pros::delay(700);
+  stopPiston.set(true);
+  pros::delay(600);
+  matchLoader.set(false);
+  pros::delay(300);
+  //6 ball pickup + middle goal
+  chassis.pid_turn_set(220_deg, TURN_SPEED);
+  pros::delay(900);
+  stopPiston.set(false);
+  chassis.pid_drive_set(25_in, DRIVE_SPEED, true);
+  pros::delay(600);
+  matchLoader.set(true);
+  pros::delay(300);
+  chassis.pid_turn_set(179_deg, TURN_SPEED);
+  pros::delay(500);
+  matchLoader.set(false);
+  chassis.slew_drive_set(false);  // Disables global slew
+  chassis.slew_drive_constants_set(-10_in, 40);
+  chassis.pid_drive_set(50_in, 80, true); //48_in=
+  pros::delay(1000); //1000
+  matchLoader.set(true);
+  pros::delay(200); //test
+  //chassis.pid_drive_set(-7_in, DRIVE_SPEED, true); //test
+  //pros::delay(300);
+  chassis.pid_turn_set(135_deg, TURN_SPEED);
+  matchLoader.set(false);
+  pros::delay(500);
+  chassis.pid_drive_set(-25_in, DRIVE_SPEED, true);
+  pros::delay(800);
+  topRollers.move(-127);
+  bottomRollers.move(-127);
+  topIntake.move(-127);
+  pros::delay(300);
+  topIntake.move(-50);
+  topRollers.move(60);
+  bottomRollers.move(90);
+  pros::delay(800);
+  topRollers.move(0);
+  pros::delay(100);
+  topIntake.move(127);
+  topRollers.move(127);
+  //other long goal
+  chassis.pid_drive_set(54_in, DRIVE_SPEED, true);
+  pros::delay(1300);
+  chassis.pid_turn_set(89_deg, TURN_SPEED);
+  pros::delay(500);
+  chassis.pid_drive_set(19_in, DRIVE_SPEED, true);
+  pros::delay(1100);
+  chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
+  pros::delay(800);
+  stopPiston.set(true);
+  pros::delay(3000);
   chassis.pid_wait();
 }
