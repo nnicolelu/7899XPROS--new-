@@ -43,12 +43,12 @@ void initialize() {
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
       {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
+      {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
       {"SKILLS!", skills},
       {"Solo AWP", soloAWP},
       {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
       {"Driving off park", driveOff},
       {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
-      {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
   });
 
   // Initialize chassis and auton selector
@@ -65,6 +65,7 @@ void initialize() {
  */
 void disabled() {
   // . . .
+  descore.set(true);
 }
 
 /**
@@ -222,7 +223,7 @@ void opcontrol() {
     chassis.opcontrol_arcade_standard(ez::SPLIT);
     // pneumatics
     descore.button_toggle(master.get_digital(DIGITAL_B));
-    //matchLoader.button_toggle(master.get_digital(DIGITAL_DOWN));
+    matchLoader.button_toggle(master.get_digital(DIGITAL_DOWN));
     stopPiston.button_toggle(master.get_digital(DIGITAL_Y));
     // if (master.get_digital(DIGITAL_X)) {
     //   stopPiston.set(false);
@@ -285,8 +286,8 @@ void opcontrol() {
         topIntake.move(127);
       }
       else if (master.get_digital(DIGITAL_R2)) { // scoring on middle top 
-        topRollers.move(60);
-        topIntake.move(-60);
+        topRollers.move(90);
+        topIntake.move(-90);
       }
       else {
         topRollers.move(0);
