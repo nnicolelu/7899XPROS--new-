@@ -8,12 +8,12 @@
 // Chassis constructor
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
-    {-20, -10, 12},     // Left Chassis Ports (negative port will reverse it!)
-    {15, 16, -18},  // Right Chassis Ports (negative port will reverse it!)
+    {-20, -10, -12},     // Left Chassis Ports (negative port will reverse it!)
+    {15, 16, 18},  // Right Chassis Ports (negative port will reverse it!)
 
     4,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
-    450);   // Wheel RPM = cartridge * (motor gear / wheel gear)
+    400);   // Wheel RPM = cartridge * (motor gear / wheel gear)
 
 
 /**
@@ -42,12 +42,12 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
+      {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
       {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
+      {"Driving off park", driveOff},
+      {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
       {"SKILLS!", skills},
       {"Solo AWP", soloAWP},
-      {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
-      {"Driving off park", driveOff},
       {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
   });
 
