@@ -15,7 +15,7 @@ const int SWING_SPEED = 110;
 ///
 void default_constants() {
   // P, I, D, and Start I
-  chassis.pid_drive_constants_set(3.0, 0.0, 3.0);         // Fwd/rev constants, used for odom and non odom motions
+  chassis.pid_drive_constants_set(3.9, 0.0, 3.0);         // 3.0, 0.0, 3.0
   chassis.pid_heading_constants_set(1.0, 0.0, 0.5);        // Holds the robot straight while going forward without odom
   chassis.pid_turn_constants_set(3.0, 0.0, 20.0, 0.0);     // Turn in place constants
   chassis.pid_swing_constants_set(6.0, 0.0, 65.0);           // Swing constants
@@ -51,6 +51,11 @@ void default_constants() {
 // . . .
 // Make your own autonomous functions here!
 // . . .
+
+void pidTesting() {
+  chassis.pid_drive_set(48_in, DRIVE_SPEED, true);
+  chassis.pid_wait();
+}
 void simpleMoveFront(int targetInch) {
   double frontInch = front.get() / 25.4; 
   chassis.pid_drive_set((frontInch - targetInch), 120, true);
@@ -109,18 +114,6 @@ void rightHold() {
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);
   chassis.pid_wait();
 }
-
-  // chassis.pid_turn_set(125_deg, TURN_SPEED);
-  // bottomRollers.move(0);
-  // topRollers.move(0);
-  // topIntake.move(0);
-  // pros::delay(480);
-  // chassis.pid_drive_set(15_in, DRIVE_SPEED);
-  // pros::delay(600);
-  // chassis.pid_turn_set(180_deg, TURN_SPEED);
-  // pros::delay(450);
-  // chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
-  // pros::delay(1000);
 
 void leftHold() {
   stopPiston.set(false);
@@ -221,32 +214,32 @@ void skills() {
   bottomRollers.move(127);
   topRollers.move(127);
   topIntake.move(127);
-  chassis.pid_drive_set(40_in, 60, true);
-  pros::delay(1000);
-  chassis.pid_drive_set(-15_in, 70, true);
-  pros::delay(500);
-  chassis.pid_drive_set(20_in, 60, true);
-  pros::delay(800);
-  chassis.pid_drive_set(-15_in, 70, true);
-  pros::delay(500);
-  chassis.pid_drive_set(20_in, 60, true);
-  pros::delay(800);
-  chassis.pid_drive_set(-15_in, 70, true);
-  pros::delay(500);
-  chassis.pid_drive_set(20_in, 60, true);
-  pros::delay(800);
-  chassis.pid_drive_set(-15_in, 70, true);
-  pros::delay(500);
-  topRollers.move(0);
-  chassis.pid_drive_set(23_in, 60, true);
-  pros::delay(1000);
-  chassis.pid_drive_set(-24_in, 60, true);
-  pros::delay(1400);
-  bottomRollers.move(0);
-  topIntake.move(0);
-  chassis.pid_drive_set(5_in, 70, true); // finished with clearing park
-  simpleMoveFront(14);
-  pros::delay(480);
+  // chassis.pid_drive_set(40_in, 60, true);
+  // pros::delay(1000);
+  // chassis.pid_drive_set(-15_in, 70, true);
+  // pros::delay(500);
+  // chassis.pid_drive_set(20_in, 60, true);
+  // pros::delay(800);
+  // chassis.pid_drive_set(-15_in, 70, true);
+  // pros::delay(500);
+  // chassis.pid_drive_set(20_in, 60, true);
+  // pros::delay(800);
+  // chassis.pid_drive_set(-15_in, 70, true);
+  // pros::delay(500);
+  // chassis.pid_drive_set(20_in, 60, true);
+  // pros::delay(800);
+  // chassis.pid_drive_set(-15_in, 70, true);
+  // pros::delay(500);
+  // topRollers.move(0);
+  // chassis.pid_drive_set(23_in, 60, true);
+  // pros::delay(1000);
+  // chassis.pid_drive_set(-24_in, 60, true);
+  // pros::delay(1400);
+  // bottomRollers.move(0);
+  // topIntake.move(0);
+  // chassis.pid_drive_set(5_in, 70, true); // finished with clearing park
+  // simpleMoveFront(14);
+  // pros::delay(480);
   chassis.pid_drive_set(-32_in, DRIVE_SPEED, true);
   pros::delay(800);
   chassis.pid_turn_set(90_deg, TURN_SPEED);
