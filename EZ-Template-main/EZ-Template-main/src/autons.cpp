@@ -88,7 +88,7 @@ void rightHold() {
   pros::delay(800);
   chassis.pid_turn_set(90_deg, TURN_SPEED);
   pros::delay(400);
-  simpleMoveFront(18);
+  simpleMoveFront(17.5);
   pros::delay(400);
   chassis.pid_turn_set(181_deg, DRIVE_SPEED);
   pros::delay(480);
@@ -210,7 +210,40 @@ void left4Ball() {
 }
 
 void right4Ball() {
-
+  stopPiston.set(false);
+  chassis.pid_drive_set(20_in, DRIVE_SPEED);
+  pros::delay(350);
+  simpleMoveFront(18);
+  pros::delay(600);
+  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  pros::delay(350);
+  matchLoader.set(true);
+  pros::delay(150);
+  bottomRollers.move(127);
+  topRollers.move(127);
+  topIntake.move(127);
+  chassis.pid_drive_set(19_in, 90, true); // match loading
+  pros::delay(900);
+  chassis.pid_drive_set(-41_in, 80, true);
+  pros::delay(800);
+  stopPiston.set(true);
+  pros::delay(1500);
+  matchLoader.set(false);  
+  chassis.pid_turn_set(35_deg, TURN_SPEED);
+  bottomRollers.move(0);
+  topRollers.move(0);
+  topIntake.move(0);
+  pros::delay(450);
+  chassis.pid_drive_set(12.5_in, DRIVE_SPEED);
+  pros::delay(500);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  pros::delay(500);
+  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
+  pros::delay(800);
+  chassis.pid_turn_set(-90_deg, TURN_SPEED);
+  pros::delay(300);
+  chassis.drive_brake_set(MOTOR_BRAKE_HOLD);
+  chassis.pid_wait();
 }
 
 void skills() {
