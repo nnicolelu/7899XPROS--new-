@@ -42,9 +42,9 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
+      {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
       {"SKILLS!", skills},
       {"PID testing", pidTesting},
-      {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
       {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
       {"Driving off park", driveOff},
       {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
@@ -277,8 +277,8 @@ void opcontrol() {
       }
     }
     else if (master.get_digital(DIGITAL_R2)) {
-      topRollers.move(100);
-      topIntake.move(-100);
+      topRollers.move(45);
+      topIntake.move(-50);
     }
     else if (master.get_digital(DIGITAL_L1)) { // picking up from floor
       bottomRollers.move(127);
