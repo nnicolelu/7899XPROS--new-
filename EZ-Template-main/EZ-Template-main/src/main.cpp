@@ -9,7 +9,7 @@
 ez::Drive chassis(
     // These are your drive motors, the first motor is used for sensing!
     {-20, -10, -12},     // Left Chassis Ports (negative port will reverse it!)
-    {15, 16, 18},  // Right Chassis Ports (negative port will reverse it!)
+    {17, 16, 18},  // Right Chassis Ports (negative port will reverse it!)
 
     4,      // IMU Port
     3.25,  // Wheel Diameter (Remember, 4" wheels without screw holes are actually 4.125!)
@@ -42,11 +42,11 @@ void initialize() {
 
   // Autonomous Selector using LLEMU
   ez::as::auton_selector.autons_add({
-      {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
       {"SKILLS!", skills},
+      {"PID testing", pidTesting},
+      {"Left hold\n\nLeft side autonomous with descore arm hold", leftHold},
       {"Right four ball autonomous\n\nRight side auto that gets four balls into long goal with descore", right4Ball},
       {"Right hold\n\nRight side autonomous with descore arm hold", rightHold},
-      {"PID testing", pidTesting},
       {"Driving off park", driveOff},
       {"Left four ball autonomous\n\nLeft side autonomous that gets four balls into the long goal with descore arm hold", left4Ball},
       {"Solo AWP", soloAWP},
@@ -287,8 +287,8 @@ void opcontrol() {
         topIntake.move(127);
       }
       else if (master.get_digital(DIGITAL_R2)) { // scoring on middle top 
-        topRollers.move(90);
-        topIntake.move(-90);
+        topRollers.move(100);
+        topIntake.move(-100);
       }
       else {
         topRollers.move(0);
@@ -297,7 +297,7 @@ void opcontrol() {
     }
     else if (master.get_digital(DIGITAL_L2)) { // removing balls from bot
       bottomRollers.move(-127);
-      topRollers.move(-127);
+      topRollers.move(-100);
       topIntake.move(-127);
     }
     else {
