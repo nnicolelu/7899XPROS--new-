@@ -297,7 +297,7 @@ void opcontrol() {
       }
     }
     else if (master.get_digital(DIGITAL_L2)) { // removing balls from bot
-      bottomRollers.move(-127);
+      bottomRollers.move(-70);
       topRollers.move(-100);
       topIntake.move(-127);
     }
