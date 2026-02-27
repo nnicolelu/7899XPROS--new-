@@ -51,18 +51,40 @@ void default_constants() {
 // . . .
 // Make your own autonomous functions here!
 // . . .
+
+void simpleMoveFront(int targetInch) {
+  double frontInch = front.get() / 25.4; 
+  chassis.pid_drive_set((frontInch - targetInch), 120, true);
+}
+
 void testing() {
-  chassis.pid_turn_set(-176_deg, TURN_SPEED);
+  stopPiston.set(false);
+  topIntake.move(127);
+  topRollers.move(127);
+  bottomRollers.move(127);
+  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
+  pros::delay(800);
+  chassis.pid_drive_set(-10_in, 80, true);
+  pros::delay(300);
+  chassis.pid_drive_set(20_in, 90, true);
+  pros::delay(660);
+  chassis.pid_drive_set(-10_in, 80, true);
+  pros::delay(390);
+  chassis.pid_drive_set(20_in, 90, true);
+  pros::delay(500);
+  chassis.pid_drive_set(-10_in, 80, true);
+  pros::delay(390);
+  chassis.pid_drive_set(20_in, 90, true);
+  pros::delay(660);
+  chassis.pid_drive_set(-34_in, 70);
+  pros::delay(900);
+  simpleMoveFront(13);
+  pros::delay(400);
   chassis.pid_wait();
 }
 void pidTesting() {
   chassis.pid_drive_set(30_in, DRIVE_SPEED, true);
   chassis.pid_wait();
-}
-
-void simpleMoveFront(int targetInch) {
-  double frontInch = front.get() / 25.4; 
-  chassis.pid_drive_set((frontInch - targetInch), 120, true);
 }
 
 void driveOff() {
@@ -296,7 +318,7 @@ void skills() {
   pros::delay(380);
   chassis.pid_drive_set(-17_in, 70, true); // middle goal
   pros::delay(400);
-  chassis.pid_turn_set(44_deg, TURN_SPEED); // 38
+  chassis.pid_turn_set(38_deg, TURN_SPEED); // 44
   pros::delay(380);
   bottomRollers.move(90);
   topRollers.move(55);
@@ -343,7 +365,7 @@ void skills() {
   pros::delay(600);
   chassis.pid_turn_set(250_deg, TURN_SPEED);
   pros::delay(450);
-  chassis.pid_drive_set(22.5_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(22_in, DRIVE_SPEED, true);
   pros::delay(300);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);  // -180
   pros::delay(380);
@@ -387,7 +409,7 @@ void skills() {
   pros::delay(650);
   chassis.pid_turn_set(-179_deg, TURN_SPEED);
   pros::delay(500);
-  chassis.pid_drive_set(35_in, DRIVE_SPEED, true);
+  chassis.pid_drive_set(32_in, DRIVE_SPEED, true);
   pros::delay(800);
   chassis.pid_drive_set(-10_in, 80, true);
   pros::delay(300);
@@ -397,13 +419,35 @@ void skills() {
   pros::delay(390);
   chassis.pid_drive_set(20_in, 90, true);
   pros::delay(500);
-  chassis.pid_drive_set(-34_in, 80, true);
+  chassis.pid_drive_set(-10_in, 80, true);
+  pros::delay(390);
+  chassis.pid_drive_set(20_in, 90, true);
+  pros::delay(660);
+  chassis.pid_drive_set(-38_in, 70);
   pros::delay(900);
+  chassis.pid_drive_set(5_in, 70, true); // finished with clearing park
   simpleMoveFront(13);
-  pros::delay(400);
+  pros::delay(480);
+  bottomRollers.move(0);
+  topRollers.move(0);
+  topIntake.move(0);
   chassis.pid_drive_set(-35_in, DRIVE_SPEED, true);
   pros::delay(720);
-  chassis.pid_turn_set(90_deg, TURN_SPEED);
+  chassis.pid_turn_set(-270_deg, TURN_SPEED);
+  pros::delay(450);
+  bottomRollers.move(127);
+  chassis.pid_drive_set(20.5_in, DRIVE_SPEED, true);
+  pros::delay(680);
+  chassis.pid_turn_set(-48_deg, TURN_SPEED);
+  pros::delay(500);
+  chassis.pid_drive_set(6_in, DRIVE_SPEED, true);
+  pros::delay(400);
+  bottomRollers.move(-70);
+  topRollers.move(-100);
+  topIntake.move(-127);
+  pros::delay(800);
+  bottomRollers.move(-60);
+  pros::delay(500);
   chassis.pid_wait();
 }
 
