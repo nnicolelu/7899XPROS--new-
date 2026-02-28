@@ -154,30 +154,29 @@ void leftHold() {
   pros::delay(450);
   chassis.pid_turn_set(-35_deg, TURN_SPEED);
   pros::delay(280);
-  chassis.pid_drive_set(14_in, 110, true);
+  chassis.pid_drive_set(14.5_in, 110, true);
   pros::delay(300);
   matchLoader.set(true);
   chassis.pid_drive_set(9_in, 1110, true);
-  pros::delay(300);
+  pros::delay(500); // 300
   matchLoader.set(false);
   chassis.pid_turn_set(-140_deg, TURN_SPEED);
-  pros::delay(480);
+  pros::delay(460);
   chassis.pid_drive_set(32_in, DRIVE_SPEED, true); // going to goal
   pros::delay(720);
   chassis.pid_turn_set(-90_deg, TURN_SPEED);
-  pros::delay(360);
+  pros::delay(350);
   simpleMoveFront(17.7);
   pros::delay(450);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
-  pros::delay(450);
+  pros::delay(400);
   matchLoader.set(true);
   pros::delay(100);
-  chassis.pid_drive_set(18_in, 70, true); // match loading
-  pros::delay(900);
-  bottomRollers.move(0);
+  chassis.pid_drive_set(16.5_in, 70, true); // match loading
+  pros::delay(910);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
   pros::delay(300);
-  chassis.pid_drive_set(-38_in, 90, true); // scoring
+  chassis.pid_drive_set(-35_in, 90, true); // scoring
   pros::delay(780);
   stopPiston.set(true);
   matchLoader.set(false);
@@ -189,13 +188,15 @@ void leftHold() {
   bottomRollers.move(0);
   topRollers.move(0);
   topIntake.move(0);
-  pros::delay(450);
-  chassis.pid_drive_set(16_in, DRIVE_SPEED);
+  pros::delay(430);
+  chassis.pid_drive_set(14_in, DRIVE_SPEED);
   pros::delay(460);
   chassis.pid_turn_set(-180_deg, TURN_SPEED);
-  pros::delay(440);
+  pros::delay(400);
   chassis.pid_drive_set(-36_in, 80, true);
   pros::delay(1000);
+  chassis.pid_turn_set(-210_deg, TURN_SPEED);
+  pros::delay(350);
   matchLoader.set(true);
   chassis.drive_brake_set(MOTOR_BRAKE_HOLD);
   chassis.pid_wait();
@@ -425,7 +426,7 @@ void skills() {
   pros::delay(500);
   chassis.pid_turn_set(270_deg, TURN_SPEED);
   topRollers.move(0);
-  topIntake.move(0);  
+  topIntake.move(0);
   pros::delay(400);
   chassis.pid_drive_set(10_in, DRIVE_SPEED, true);
   pros::delay(350);
